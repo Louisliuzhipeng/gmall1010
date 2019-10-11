@@ -5,8 +5,7 @@
     <parent>
         <groupId>com.chirping.gmall</groupId>
         <artifactId>gmall-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../gmall-parent/pom.xml</relativePath>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.chirping.gmall</groupId>
@@ -21,14 +20,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>com.chirping.gmall</groupId>
+            <artifactId>gmall-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.chirping.gmall</groupId>
+            <artifactId>gmall-service-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
