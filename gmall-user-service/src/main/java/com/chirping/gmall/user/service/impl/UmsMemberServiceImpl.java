@@ -1,6 +1,5 @@
 package com.chirping.gmall.user.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.chirping.gmall.mapper.UmsMemberMapper;
 import com.chirping.gmall.pojo.UmsMember;
