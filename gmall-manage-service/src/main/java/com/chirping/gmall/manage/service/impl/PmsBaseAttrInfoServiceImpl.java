@@ -1,16 +1,12 @@
 package com.chirping.gmall.manage.service.impl;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.chirping.gmall.mapper.PmsBaseAttrInfoMapper;
 import com.chirping.gmall.mapper.PmsBaseAttrValueMapper;
-import com.chirping.gmall.mapper.PmsBaseSaleAttrMapper;
-import com.chirping.gmall.mapper.PmsProductSaleAttrMapper;
 import com.chirping.gmall.pojo.PmsBaseAttrInfo;
 import com.chirping.gmall.pojo.PmsBaseAttrValue;
-import com.chirping.gmall.pojo.PmsBaseSaleAttr;
-import com.chirping.gmall.pojo.PmsProductSaleAttr;
-import com.chirping.gmall.service.AttrService;
+import com.chirping.gmall.service.PmsBaseAttrInfoService;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -21,14 +17,12 @@ import java.util.List;
  * @date 2019/10/11
  */
 @Service
-public class AttrServiceImpl implements AttrService {
+public class PmsBaseAttrInfoServiceImpl implements PmsBaseAttrInfoService {
 
     @Resource
     PmsBaseAttrInfoMapper pmsBaseAttrInfoMapper;
     @Resource
     PmsBaseAttrValueMapper pmsBaseAttrValueMapper;
-    @Resource
-    PmsBaseSaleAttrMapper pmsBaseSaleAttrMapper;
 
     @Override
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
@@ -38,22 +32,10 @@ public class AttrServiceImpl implements AttrService {
     }
 
     @Override
-    public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
-        PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
-        pmsBaseAttrValue.setAttrId(attrId);
-        return pmsBaseAttrValueMapper.select(pmsBaseAttrValue);
-    }
-
-    @Override
-    public List<PmsBaseSaleAttr> baseSaleAttrList() {
-        return pmsBaseSaleAttrMapper.selectAll();
-    }
-
-    @Override
     public String saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo) {
         try {
             String id = pmsBaseAttrInfo.getId();
-            if (StringUtils.isBlank(id)) {
+            if (StringUtils.isEmpty(id)) {
                 //保存属性
                 pmsBaseAttrInfoMapper.insertSelective(pmsBaseAttrInfo);
                 //提取属性值集合
@@ -76,7 +58,6 @@ public class AttrServiceImpl implements AttrService {
                 //修改属性值
                 List<PmsBaseAttrValue> pmsBaseAttrValues = pmsBaseAttrInfo.getAttrValueList();
                 for (PmsBaseAttrValue baseAttrValue : pmsBaseAttrValues) {
-                    baseAttrValue.setAttrId(pmsBaseAttrInfo.getId());
                     pmsBaseAttrValueMapper.insertSelective(baseAttrValue);
                 }
             }
