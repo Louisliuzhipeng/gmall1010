@@ -1,4 +1,4 @@
-package com.chirping.gmall.web.util;
+package com.chirping.gmall.manage.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
