@@ -1,14 +1,12 @@
 package com.chirping.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.chirping.gmall.mapper.PmsProductImageMapper;
-import com.chirping.gmall.mapper.PmsProductInfoMapper;
-import com.chirping.gmall.mapper.PmsProductSaleAttrMapper;
-import com.chirping.gmall.mapper.PmsProductSaleAttrValueMapper;
+import com.chirping.gmall.mapper.*;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.SpuService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +25,14 @@ public class SpuServiceImpl implements SpuService {
     PmsProductSaleAttrMapper pmsProductSaleAttrMapper;
     @Resource
     PmsProductSaleAttrValueMapper pmsProductSaleAttrValueMapper;
+    @Resource
+    PmsSkuInfoMapper pmsSkuInfoMapper;
+    @Resource
+    PmsSkuImageMapper pmsSkuImageMapper;
+    @Resource
+    PmsSkuAttrValueMapper pmsSkuAttrValueMapper;
+    @Resource
+    PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
 
     @Override
     public List<PmsProductInfo> spuList(String catalog3Id) {
@@ -58,6 +64,54 @@ public class SpuServiceImpl implements SpuService {
                 pmsProductSaleAttrValue.setProductId(productId);
                 pmsProductSaleAttrValueMapper.insertSelective(pmsProductSaleAttrValue);
             }
+        }
+    }
+
+    @Override
+    public List<PmsProductImage> spuImageList(String spuId) {
+        PmsProductImage pmsProductImage=new PmsProductImage();
+        pmsProductImage.setProductId(spuId);
+        return pmsProductImageMapper.select(pmsProductImage);
+    }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
+        PmsProductSaleAttr pmsProductSaleAttr=new PmsProductSaleAttr();
+        pmsProductSaleAttr.setProductId(spuId);
+        List<PmsProductSaleAttr> pmsProductSaleAttrs=pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
+        for (PmsProductSaleAttr productSaleAttr : pmsProductSaleAttrs) {
+            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues=new ArrayList<>();
+
+            PmsProductSaleAttrValue pmsProductSaleAttrValue=new PmsProductSaleAttrValue();
+            pmsProductSaleAttrValue.setProductId(spuId);
+            pmsProductSaleAttrValue.setSaleAttrId(productSaleAttr.getSaleAttrId());
+            pmsProductSaleAttrValues=pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue);
+            productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
+        }
+        return pmsProductSaleAttrs;
+    }
+
+    @Override
+    public String saveSkuInfo(PmsSkuInfo pmsSkuInfo) {
+        try {
+            pmsSkuInfoMapper.insertSelective(pmsSkuInfo);
+
+            for (PmsSkuImage pmsSkuImage : pmsSkuInfo.getSkuImageList()) {
+                pmsSkuImage.setSkuId(pmsSkuInfo.getId());
+                pmsSkuImageMapper.insertSelective(pmsSkuImage);
+            }
+
+            for (PmsSkuAttrValue pmsSkuAttrValue : pmsSkuInfo.getSkuAttrValueList()) {
+                pmsSkuAttrValue.setSkuId(pmsSkuInfo.getId());
+                pmsSkuAttrValueMapper.insertSelective(pmsSkuAttrValue);
+            }
+            for (PmsSkuSaleAttrValue pmsSkuSaleAttrValue : pmsSkuInfo.getSkuSaleAttrValueList()) {
+                pmsSkuSaleAttrValue.setSkuId(pmsSkuInfo.getId());
+                pmsSkuSaleAttrValueMapper.insertSelective(pmsSkuSaleAttrValue);
+            }
+            return "保存成功";
+        }catch (Exception e){
+            return "保存出錯";
         }
     }
 }
