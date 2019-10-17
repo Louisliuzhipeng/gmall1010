@@ -26,4 +26,15 @@ public class PmsProductSaleAttrValue implements Serializable {
     String isChecked;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public String toString() {
+        return "PmsProductSaleAttrValue{" +
+                "id='" + id + '\'' +
+                ", productId='" + productId + '\'' +
+                ", saleAttrId='" + saleAttrId + '\'' +
+                ", saleAttrValueName='" + saleAttrValueName + '\'' +
+                ", isChecked='" + isChecked + '\'' +
+                '}';
+    }
 }

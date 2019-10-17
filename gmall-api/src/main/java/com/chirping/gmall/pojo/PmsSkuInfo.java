@@ -44,4 +44,22 @@ public class PmsSkuInfo implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public String toString() {
+        return "PmsSkuInfo{" +
+                "id='" + id + '\'' +
+                ", productId='" + productId + '\'' +
+                ", spuId='" + spuId + '\'' +
+                ", price=" + price +
+                ", skuName='" + skuName + '\'' +
+                ", weight=" + weight +
+                ", skuDesc='" + skuDesc + '\'' +
+                ", catalog3Id='" + catalog3Id + '\'' +
+                ", skuDefaultImg='" + skuDefaultImg + '\'' +
+                ", skuImageList=" + skuImageList +
+                ", skuAttrValueList=" + skuAttrValueList +
+                ", skuSaleAttrValueList=" + skuSaleAttrValueList +
+                '}';
+    }
 }

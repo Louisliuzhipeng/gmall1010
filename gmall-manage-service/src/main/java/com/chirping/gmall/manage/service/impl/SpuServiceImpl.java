@@ -114,4 +114,22 @@ public class SpuServiceImpl implements SpuService {
             return "保存出錯";
         }
     }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId) {
+
+        PmsProductSaleAttr pmsProductSaleAttr=new PmsProductSaleAttr();
+        pmsProductSaleAttr.setProductId(productId);
+        List<PmsProductSaleAttr> saleAttrs = pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
+
+        for (PmsProductSaleAttr productSaleAttr : saleAttrs) {
+
+            PmsProductSaleAttrValue pmsProductSaleAttrValue=new PmsProductSaleAttrValue();
+            pmsProductSaleAttrValue.setSaleAttrId(productSaleAttr.getSaleAttrId());
+            pmsProductSaleAttrValue.setProductId(productId);
+
+            productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue));
+        }
+        return saleAttrs;
+    }
 }
