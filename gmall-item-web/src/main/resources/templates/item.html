@@ -12,7 +12,7 @@
 	<body>
 		<div id="max">
 		<header>
-
+			<input id="valuesSku" type="hidden" th:value="${valuesSkuJson}"/>
 					<div class="min">
 						<ul class="header_ul_left">
 							<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">首页</a></li>
@@ -223,11 +223,10 @@
 						  
 						<div class="box-attr-3">
 						<br/>
-							<div class="box-attr-2 clear"  th:each="spuSaleAttr:${spuSaleAttrListCheckBySku}">
+							<div class="box-attr-2 clear" th:each="spuSaleAttr:${spuSaleAttrListCheckBySku}">
 								<dl>
 									<dt th:text="${spuSaleAttr.saleAttrName}">选择颜色</dt>
-									<!--th:class="redborder"-->
-									<dd th:each="saleAttrValue:${spuSaleAttr.spuSaleAttrValueList}">
+									<dd  th:class="(${saleAttrValue.isChecked}=='1'?'redborder':'')" th:each="saleAttrValue:${spuSaleAttr.spuSaleAttrValueList}">
 										<div th:value="${saleAttrValue.id}" th:text="${saleAttrValue.saleAttrValueName}">
 											  摩卡金
 										</div>
@@ -1021,7 +1020,7 @@
         }
 
         function switchSkuId() {
-            // 被选中属性
+            /*// 被选中属性
             var checkDivs = $(".redborder div");
             var valueIds="";
             // 拼接成属性值串
@@ -1050,7 +1049,23 @@
                 }
             }else{
                 $("#cartBtn").attr("class","box-btns-two-off");
-            }
+            }*/
+            var sku=$("#valuesSku").val();
+            var k="";
+            var saleAttrvlaueIds=$(".redborder div");
+
+			$(saleAttrvlaueIds).each(function(i,saleAttrvalueId) {
+				k=k+$(saleAttrvalueId).attr("value")+"|";
+			})
+
+			var v=sku[k];
+			var json_sku=JSON.parse(sku);
+			var v_skuId=json_sku[k];
+
+			if (v_skuId){
+				window.location.href="http://127.0.0.1:8082/"+v_skuId+".html";
+			}
+
         }
 	</script>
 

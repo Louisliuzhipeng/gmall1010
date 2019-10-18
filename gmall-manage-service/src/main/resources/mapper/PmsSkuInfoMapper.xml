@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chirping.gmall.mapper.PmsSkuInfoMapper">
+    <select id="selectspuSaleAttrListCheckBySku" resultMap="selectspuSaleAttrListCheckByMap">
+      SELECT si.id as si_Id,ssav.id as ssav_Id,si.*,ssav.*
+      FROM pms_sku_info si,pms_sku_sale_attr_value ssav
+      WHERE si.product_id = ${productId}
+      AND si.id = ssav.sku_id
+    </select>
+
+    <resultMap id="selectspuSaleAttrListCheckByMap" type="com.chirping.gmall.pojo.PmsSkuInfo" autoMapping="true">
+        <result property="id" column="si_Id"/>
+        <collection property="skuSaleAttrValueList" ofType="com.chirping.gmall.pojo.PmsSkuSaleAttrValue" autoMapping="true">
+            <result property="id" column="ssav_Id"/>
+        </collection>
+    </resultMap>
+</mapper>
