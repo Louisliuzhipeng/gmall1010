@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.chirping.gmall.mapper.*;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.SpuService;
+import com.chirping.gmall.util.RedisUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

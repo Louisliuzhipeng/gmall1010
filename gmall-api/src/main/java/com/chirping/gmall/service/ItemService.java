@@ -7,5 +7,5 @@ import com.chirping.gmall.pojo.PmsSkuInfo;
  * @date $date$
  */
 public interface ItemService {
-    PmsSkuInfo getSkuInfoById(String skuId);
+    PmsSkuInfo getSkuInfoById(String skuId,String ip);
 }

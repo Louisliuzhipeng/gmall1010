@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,11 @@ public class ItemController {
     SpuService spuService;
 
     @RequestMapping("{skuId}.html")
-    public String item(@PathVariable String skuId, Model model){
-        PmsSkuInfo pmsSkuInfo=itemService.getSkuInfoById(skuId);
+    public String item(@PathVariable String skuId, Model model, HttpServletRequest request){
+
+        String ip = request.getRemoteAddr();
+
+        PmsSkuInfo pmsSkuInfo=itemService.getSkuInfoById(skuId,ip);
         model.addAttribute("skuInfo",pmsSkuInfo);
 
         List<PmsProductSaleAttr> pmsProductSaleAttrs=spuService.spuSaleAttrListCheckBySku(pmsSkuInfo.getProductId(),pmsSkuInfo.getId());
