@@ -23,26 +23,24 @@ import java.util.Map;
 public class ItemController {
 
     @Reference
-    ItemService itemService;
-    @Reference
     SpuService spuService;
 
     @RequestMapping("{skuId}.html")
-    public String item(@PathVariable String skuId, Model model, HttpServletRequest request){
+    public String item(@PathVariable String skuId, Model model, HttpServletRequest request) {
 
         String ip = request.getRemoteAddr();
 
-        PmsSkuInfo pmsSkuInfo=itemService.getSkuInfoById(skuId,ip);
-        model.addAttribute("skuInfo",pmsSkuInfo);
+        PmsSkuInfo pmsSkuInfo = spuService.getSkuInfoById(skuId, ip);
+        model.addAttribute("skuInfo", pmsSkuInfo);
 
-        List<PmsProductSaleAttr> pmsProductSaleAttrs=spuService.spuSaleAttrListCheckBySku(pmsSkuInfo.getProductId(),pmsSkuInfo.getId());
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = spuService.spuSaleAttrListCheckBySku(pmsSkuInfo.getProductId(), pmsSkuInfo.getId());
         for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrs) {
             System.out.println(pmsProductSaleAttr);
             for (PmsProductSaleAttrValue pmsProductSaleAttrValue : pmsProductSaleAttr.getSpuSaleAttrValueList()) {
                 System.out.println(pmsProductSaleAttrValue);
             }
         }
-        model.addAttribute("spuSaleAttrListCheckBySku",pmsProductSaleAttrs);
+        model.addAttribute("spuSaleAttrListCheckBySku", pmsProductSaleAttrs);
 
         // 查询当前sku的spu的其他sku的集合的hash表
         Map<String, String> skuSaleAttrHash = new HashMap<>();
@@ -55,12 +53,12 @@ public class ItemController {
             for (PmsSkuSaleAttrValue pmsSkuSaleAttrValue : skuSaleAttrValueList) {
                 k += pmsSkuSaleAttrValue.getSaleAttrValueId() + "|";
             }
-            skuSaleAttrHash.put(k,v);
+            skuSaleAttrHash.put(k, v);
         }
 
         // 将sku的销售属性hash表放到页面
         String skuSaleAttrHashJsonStr = JSON.toJSONString(skuSaleAttrHash);
-        model.addAttribute("valuesSkuJson",skuSaleAttrHashJsonStr);
+        model.addAttribute("valuesSkuJson", skuSaleAttrHashJsonStr);
         return "item";
     }
 

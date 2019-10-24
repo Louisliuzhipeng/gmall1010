@@ -10,10 +10,8 @@
     </parent>
 
     <groupId>com.chirping.gmall</groupId>
-    <artifactId>gmall-item-service</artifactId>
+    <artifactId>gmall-search-web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gmall-item-service</name>
-    <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -27,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.chirping.gmall</groupId>
-            <artifactId>gmall-service-util</artifactId>
+            <artifactId>gmall-web-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

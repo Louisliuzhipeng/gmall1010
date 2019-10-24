@@ -1,10 +1,10 @@
-package com.chirping.gmall.item;
+package com.chirping.gmall.search;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GmallItemServiceApplicationTests {
+class GmallSearchWebApplicationTests {
 
     @Test
     void contextLoads() {
