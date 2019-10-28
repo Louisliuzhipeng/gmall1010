@@ -2,7 +2,7 @@ package com.chirping.gmall.pojo;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,9 +14,9 @@ import javax.persistence.Id;
  * @date 2019/10/24
  */
 @Data
-public class PmsSearchSkuInfo {
+public class PmsSearchSkuInfo implements Serializable {
     @Id
-    private String id;
+    private long id;
     private String skuName;
     private String skuDesc;
     private String catalog3Id;
@@ -25,4 +25,5 @@ public class PmsSearchSkuInfo {
     private double hotScore;
     private String productId;
     private List<PmsSkuAttrValue> skuAttrValueList;
+    private static final long serialVersionUID = 1L;
 }
