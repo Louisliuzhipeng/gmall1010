@@ -16,6 +16,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 刘志鹏
@@ -35,13 +36,13 @@ public class AttrServiceImpl implements AttrService {
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
         PmsBaseAttrInfo pmsBaseAttrInfo = new PmsBaseAttrInfo();
         pmsBaseAttrInfo.setCatalog3Id(catalog3Id);
-        List<PmsBaseAttrInfo> pmsBaseAttrInfos=pmsBaseAttrInfoMapper.select(pmsBaseAttrInfo);
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = pmsBaseAttrInfoMapper.select(pmsBaseAttrInfo);
         for (PmsBaseAttrInfo baseAttrInfo : pmsBaseAttrInfos) {
-            List<PmsBaseAttrValue> pmsBaseAttrValues=new ArrayList<>();
+            List<PmsBaseAttrValue> pmsBaseAttrValues = new ArrayList<>();
 
-            PmsBaseAttrValue pmsBaseAttrValue=new PmsBaseAttrValue();
+            PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
             pmsBaseAttrValue.setAttrId(baseAttrInfo.getId());
-            pmsBaseAttrValues=pmsBaseAttrValueMapper.select(pmsBaseAttrValue);
+            pmsBaseAttrValues = pmsBaseAttrValueMapper.select(pmsBaseAttrValue);
             baseAttrInfo.setAttrValueList(pmsBaseAttrValues);
         }
         return pmsBaseAttrInfos;
@@ -57,6 +58,12 @@ public class AttrServiceImpl implements AttrService {
     @Override
     public List<PmsBaseSaleAttr> baseSaleAttrList() {
         return pmsBaseSaleAttrMapper.selectAll();
+    }
+
+    @Override
+    public List<PmsBaseAttrInfo> getAttrValueListByValueId(Set<String> valueSet) {
+        String join = StringUtils.join(valueSet, ",");
+        return pmsBaseAttrInfoMapper.selectAttrValueListByValueId(join);
     }
 
     @Override

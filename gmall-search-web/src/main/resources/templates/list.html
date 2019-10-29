@@ -98,9 +98,8 @@
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li th:each="attrValue:${attrInfo.attrValueList}"><a
-                                    th:href="'/list.html?'+${urlParam}+'&valueId='+${attrValue.id}"
-                                    th:text="${attrValue.valueName}">属性值</a></li>
+                            <li th:each="attrValue:${attrInfo.attrValueList}">
+                                <a th:href="'/list.html?'+${urlParam}+'&valueId='+${attrValue.id}" th:text="${attrValue.valueName}">属性值</a></li>
                         </ul>
                     </div>
                 </div>

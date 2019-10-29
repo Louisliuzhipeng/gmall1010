@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chirping.gmall.mapper.PmsBaseAttrInfoMapper">
+    <select id="selectAttrValueListByValueId" resultMap="selectAttrValueListByValueIdMap">
+        select ba.*,ba.id as ba_id,bv.*,bv.id as bv_id
+        from  pms_base_attr_info ba,pms_base_attr_value bv
+        where ba.id=bv.attr_id and bv.id in (${join})
+    </select>
+
+    <resultMap id="selectAttrValueListByValueIdMap" type="com.chirping.gmall.pojo.PmsBaseAttrInfo" autoMapping="true">
+        <result column="ba_id" property="id"/>
+        <collection property="attrValueList" ofType="com.chirping.gmall.pojo.PmsBaseAttrValue" autoMapping="true">
+            <result column="bv_id" property="id"/>
+        </collection>
+    </resultMap>
+</mapper>

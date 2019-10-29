@@ -5,6 +5,7 @@ import com.chirping.gmall.pojo.PmsBaseAttrValue;
 import com.chirping.gmall.pojo.PmsBaseSaleAttr;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 刘志鹏
@@ -19,4 +20,6 @@ public interface AttrService {
     List<PmsBaseAttrValue> getAttrValueList(String attrId);
 
     List<PmsBaseSaleAttr> baseSaleAttrList();
+
+    List<PmsBaseAttrInfo> getAttrValueListByValueId(Set<String> valueSet);
 }

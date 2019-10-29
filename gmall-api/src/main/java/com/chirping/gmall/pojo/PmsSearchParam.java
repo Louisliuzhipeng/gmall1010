@@ -15,6 +15,6 @@ import java.util.List;
 public class PmsSearchParam implements Serializable {
     private String catalog3Id;
     private String keyword;
-    private List<PmsSkuAttrValue> skuAttrValueList;
+    private String[] valueId;
     private static final long serialVersionUID = 1L;
 }
