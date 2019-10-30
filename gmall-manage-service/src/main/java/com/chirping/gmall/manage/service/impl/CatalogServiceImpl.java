@@ -8,6 +8,7 @@ import com.chirping.gmall.pojo.PmsBaseCatalog1;
 import com.chirping.gmall.pojo.PmsBaseCatalog2;
 import com.chirping.gmall.pojo.PmsBaseCatalog3;
 import com.chirping.gmall.service.CatalogService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @date 2019/10/11
  */
 @Service
+@Transactional
 public class CatalogServiceImpl implements CatalogService {
 
     @Resource

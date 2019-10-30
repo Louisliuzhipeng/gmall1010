@@ -7,6 +7,7 @@ import com.chirping.gmall.mapper.*;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.SpuService;
 import com.chirping.gmall.util.RedisUtil;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 
 @Service
+@Transactional
 public class SpuServiceImpl implements SpuService {
 
     @Resource
@@ -86,6 +88,7 @@ public class SpuServiceImpl implements SpuService {
         PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
         pmsProductSaleAttr.setProductId(spuId);
         List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
+
         for (PmsProductSaleAttr productSaleAttr : pmsProductSaleAttrs) {
             List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = new ArrayList<>();
 
@@ -165,7 +168,6 @@ public class SpuServiceImpl implements SpuService {
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         //获取jedis
         Jedis jedis = redisUtil.getJedis();
-
         String skuKey = "sku:" + skuId + ":info";
         //查询缓存
         String skuJson = jedis.get(skuKey);

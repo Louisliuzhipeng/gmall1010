@@ -11,6 +11,7 @@ import com.chirping.gmall.pojo.PmsBaseAttrValue;
 import com.chirping.gmall.pojo.PmsBaseSaleAttr;
 import com.chirping.gmall.pojo.PmsProductSaleAttr;
 import com.chirping.gmall.service.AttrService;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import java.util.Set;
  * @date 2019/10/11
  */
 @Service
+@Transactional
 public class AttrServiceImpl implements AttrService {
 
     @Resource

@@ -3,6 +3,7 @@ package com.chirping.gmall.pojo;
 import lombok.Data;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +16,7 @@ public class OmsCartItem implements Serializable {
     private String productId;
     private String productSkuId;
     private String memberId;
-    private int quantity;
+    private BigDecimal quantity;
     private BigDecimal price;
     private String sp1;
     private String sp2;
@@ -32,4 +33,7 @@ public class OmsCartItem implements Serializable {
     private String productBrand;
     private String productSn;
     private String productAttr;
+    private String isChecked;
+    @Transient
+    private BigDecimal totalPrice;
 }
