@@ -1,4 +1,4 @@
-package com.chirping.gmall.web.util;
+package com.chirping.gmall.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

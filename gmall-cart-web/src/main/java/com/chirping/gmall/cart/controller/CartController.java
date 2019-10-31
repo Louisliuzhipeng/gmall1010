@@ -3,11 +3,12 @@ package com.chirping.gmall.cart.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.client.utils.StringUtils;
+import com.chirping.gmall.annotations.LoginRequired;
 import com.chirping.gmall.pojo.OmsCartItem;
 import com.chirping.gmall.pojo.PmsSkuInfo;
 import com.chirping.gmall.service.CartService;
 import com.chirping.gmall.service.SpuService;
-import com.chirping.gmall.web.util.CookieUtil;
+import com.chirping.gmall.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,16 @@ public class CartController {
     @Reference
     SpuService spuService;
 
+    @RequestMapping("toTrade")
+    @LoginRequired(loginSuccess = true)
+    public String toTrade(HttpServletRequest request, HttpServletResponse response, Model model) {
+        String memberId = request.getAttribute("memberId").toString();
+        String nickname = request.getAttribute("nickname").toString();
+        return "toTrade";
+    }
+
     @RequestMapping("checkCart")
+    @LoginRequired(loginSuccess = false)
     public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response, Model model) {
         String memberId = "1";
         // 调用服务，修改状态
@@ -63,6 +73,7 @@ public class CartController {
     }
 
     @RequestMapping("cartList")
+    @LoginRequired(loginSuccess = false)
     public String cartList(HttpServletRequest request, HttpServletResponse response, Model model) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         String memberId = "1";
@@ -88,6 +99,7 @@ public class CartController {
     }
 
     @RequestMapping("addToCart")
+    @LoginRequired(loginSuccess = false)
     public String addToCart(String skuId, int quantity, HttpServletRequest request, HttpServletResponse response, Model model) {
         //查询商品信息
         PmsSkuInfo skuInfoById = spuService.getSkuInfoById(skuId, "");
@@ -103,13 +115,13 @@ public class CartController {
         omsCartItem.setProductId(skuInfoById.getProductId());
         omsCartItem.setProductName(skuInfoById.getSkuName());
         omsCartItem.setProductPic(skuInfoById.getSkuDefaultImg());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String dateString = simpleDateFormat.format(new Date());
-        omsCartItem.setProductSkuCode(dateString);
+        omsCartItem.setProductSkuCode(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()));
         omsCartItem.setProductSkuId(skuId);
         omsCartItem.setQuantity(new BigDecimal(quantity));
 
+        request.getParameter("memberId");
         String memberId = "1";
+
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         if (StringUtils.isBlank(memberId)) {
             //用户没有登录
