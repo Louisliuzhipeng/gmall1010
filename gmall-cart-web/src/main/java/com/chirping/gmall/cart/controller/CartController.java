@@ -33,7 +33,7 @@ public class CartController {
     @Reference
     SpuService spuService;
 
-    @RequestMapping("toTrade")
+    @RequestMapping("/toTrade")
     @LoginRequired(loginSuccess = true)
     public String toTrade(HttpServletRequest request, HttpServletResponse response, Model model) {
         String memberId = request.getAttribute("memberId").toString();
@@ -41,7 +41,7 @@ public class CartController {
         return "toTrade";
     }
 
-    @RequestMapping("checkCart")
+    @RequestMapping("/checkCart")
     @LoginRequired(loginSuccess = false)
     public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response, Model model) {
         String memberId = "1";
@@ -49,12 +49,11 @@ public class CartController {
         OmsCartItem omsCartItem = new OmsCartItem();
         omsCartItem.setMemberId(memberId);
         omsCartItem.setProductSkuId(skuId);
-        omsCartItem.setIsChecked(isChecked);
+        omsCartItem.setIschecked(isChecked);
         cartService.checkCart(omsCartItem);
         // 将最新的数据从缓存中查出，渲染给内嵌页
         List<OmsCartItem> omsCartItems = cartService.cartList(memberId);
         model.addAttribute("cartList", omsCartItems);
-
         // 被勾选商品的总额
         BigDecimal totalAmount = getTotalAmount(omsCartItems);
         model.addAttribute("totalAmount", totalAmount);
@@ -65,14 +64,14 @@ public class CartController {
         BigDecimal totalAmount = new BigDecimal("0");
         for (OmsCartItem omsCartItem : omsCartItems) {
             BigDecimal totalPrice = omsCartItem.getTotalPrice();
-            if (omsCartItem.getIsChecked().equals("1")) {
+            if (omsCartItem.getIschecked().equals("1")) {
                 totalAmount = totalAmount.add(totalPrice);
             }
         }
         return totalAmount;
     }
 
-    @RequestMapping("cartList")
+    @RequestMapping("/cartList")
     @LoginRequired(loginSuccess = false)
     public String cartList(HttpServletRequest request, HttpServletResponse response, Model model) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();

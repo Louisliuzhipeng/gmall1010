@@ -1,4 +1,4 @@
-package com.chirping.gmall.search;
+package com.chirping.gmall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

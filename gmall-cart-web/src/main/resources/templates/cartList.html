@@ -59,7 +59,7 @@
         </div>
         <div class="One_ShopTop">
             <ul>
-                <li><input type="checkbox" class="allCheck">全选</li>
+                <li><input type="checkbox" class="allCheck" onchange="checkSkuall(this)">全选</li>
                 <li>商品</li>
                 <li>单价</li>
                 <li>数量</li>
@@ -149,6 +149,22 @@
         window.location.href = "http://passport.atguigu.com/index?originUrl=" + s;
     }
 
+    function checkSkuall(obj) {
+        /*var isCheckedFlag = "";
+        if ($(obj).is(":checked")) {
+            isCheckedFlag = "1";
+        } else {
+            isCheckedFlag = "0";
+        }*/
+
+        /*var skuId = $(".check").attr("value");
+        $.post("checkCart", "isChecked=" + isCheckedFlag + "&" + "skuId=" + skuId, function (html) {
+            //sumSumPrice();
+            // 服务会返回一个inner内嵌页面给ajax，我们返回的新的页面刷新替换掉原来的老的页面
+            $("#cartListInner").html(html);
+        });*/
+    }
+
     function checkSku(chkbox) {
         var skuId = $(chkbox).attr("value");
         var checked = $(chkbox).prop("checked");
@@ -156,7 +172,7 @@
         if (checked) {
             isCheckedFlag = "1";
         }
-        $.post("checkCart","isChecked=" + isCheckedFlag + "&" + "skuId=" + skuId, function (html) {
+        $.post("checkCart", "isChecked=" + isCheckedFlag + "&" + "skuId=" + skuId, function (html) {
             //sumSumPrice();
             // 服务会返回一个inner内嵌页面给ajax，我们返回的新的页面刷新替换掉原来的老的页面
             $("#cartListInner").html(html);

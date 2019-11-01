@@ -1,6 +1,7 @@
 package com.chirping.gmall.service;
 
 import com.chirping.gmall.pojo.UmsMember;
+import com.chirping.gmall.pojo.UmsMemberReceiveAddress;
 
 import java.util.List;
 
@@ -11,4 +12,10 @@ import java.util.List;
 public interface UmsMemberService {
 
     List<UmsMember> getListUmsMember();
+
+    List<UmsMemberReceiveAddress> getReceiveAddressByMemberId(String memberId);
+
+    void addUserToken(String token, String memberId);
+
+    UmsMember login(UmsMember umsMember);
 }

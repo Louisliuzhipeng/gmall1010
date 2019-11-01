@@ -8,13 +8,14 @@ import lombok.Data;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Data
 public class UmsMember implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long memberLevelId;
+    private String id;
+    private String memberLevelId;
     /**
      * 用户名
      */
@@ -34,7 +35,7 @@ public class UmsMember implements Serializable {
     /**
      * 帐号启用状态:0->禁用；1->启用
      */
-    private Integer status;
+    private int status;
     /**
      * 注册时间
      */
@@ -47,7 +48,7 @@ public class UmsMember implements Serializable {
     /**
      * 性别：0->未知；1->男；2->女
      */
-    private Integer gender;
+    private int gender;
 
     /**
      * 生日
@@ -72,26 +73,27 @@ public class UmsMember implements Serializable {
     /**
      * 用户来源
      */
-    private Integer sourceType;
+    private int sourceType;
 
     /**
      * 积分
      */
-    private Integer integration;
+    private int integration;
 
     /**
      * 成长值
      */
-    private Integer growth;
+    private int growth;
 
     /**
      * 剩余抽奖次数
      */
-    private Integer luckeyCount;
+    private int luckeyCount;
 
     /**
      * 历史积分数量
      */
+    @Transient
     private Integer historyIntegration;
 
     private static final long serialVersionUID = 1L;

@@ -60,18 +60,25 @@
     </div>
 </div>
 <!--底部-->
-<input type="hidden" th:value="#{ReturnUrl}" id="ReturnUrl"/>
+<input type="hidden" th:value="${ReturnUrl}" id="ReturnUrl"/>
 </body>
 <script language="JavaScript">
 
     function submitLogin() {
         var username = $("#username").val();
         var password = $("#password").val();
-        $.post("login", {username: username, password: password}, function (token) {
-            if (token != null) {
-                window.location.href = $("#ReturnUrl").val() + "?token=" + token;
-            }
-        })
+        if (username.length > 0 && password.length > 0) {
+            $.post("login", {username: username, password: password}, function (token) {
+                if (token == "fail") {
+                    $(".error").text("用户名或密码不匹配,请重新输入");
+                    $(".error").show();
+                } else {
+                    window.location.href = $("#ReturnUrl").val() + "?token=" + token;
+                }
+            })
+        } else {
+            $(".error").text("请输入账户名和密码");
+        }
     }
 
     var btn2 = document.getElementsByClassName('btn2')[0];

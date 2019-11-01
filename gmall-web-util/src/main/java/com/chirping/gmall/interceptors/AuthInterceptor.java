@@ -1,22 +1,25 @@
 package com.chirping.gmall.interceptors;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.client.utils.StringUtils;
 import com.chirping.gmall.annotations.LoginRequired;
 import com.chirping.gmall.util.CookieUtil;
 import com.chirping.gmall.util.HttpclientUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 刘志鹏
  * @date 2019/10/31
  */
 @Component
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 拦截代码
@@ -38,8 +41,20 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         boolean loginSuccess = loginRequired.loginSuccess();
         //验证
         String success = "fail";
+        Map<String, String> successMap=new HashMap<>();
         if (StringUtils.isNotBlank(token)) {
-            success = HttpclientUtil.doGet("http://localhost:8085/verify?token=" + token);
+            // 通过nginx转发的客户端ip
+            String ip = request.getHeader("x-forwarded-for");
+            if (StringUtils.isBlank(ip)) {
+                // 从request中获取ip
+                ip = request.getRemoteAddr();
+                if (StringUtils.isBlank(ip)) {
+                    ip = "127.0.0.1";
+                }
+            }
+            String successJson = HttpclientUtil.doGet("http://localhost:8085/verify?token=" + token+"&currentIP="+ip);
+            successMap = JSON.parseObject(successJson, Map.class);
+            success = successMap.get("status");
         }
         if (loginSuccess) {
             if (!success.equals("success")) {
@@ -49,16 +64,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             //验证通过
-            request.setAttribute("memberId", "");
-            request.setAttribute("nickname", "小明");
+            request.setAttribute("memberId", successMap.get("memberId"));
+            request.setAttribute("nickname", successMap.get("nickname"));
             //验证通过，覆盖cookie中的token
-            if(StringUtils.isNotBlank(token)){
-                CookieUtil.setCookie(request,response,"oldToken",token,60*60*2,true);
+            if (StringUtils.isNotBlank(token)) {
+                CookieUtil.setCookie(request, response, "oldToken", token, 60 * 60 * 2, true);
             }
         } else {
             if (success.equals("success")) {
-                request.setAttribute("memberId", "");
-                request.setAttribute("nickname", "小明");
+                request.setAttribute("memberId", "1");
+                request.setAttribute("nickname", "nickname");
                 //验证通过,覆盖cookie中的token
                 if (StringUtils.isNotBlank(token)) {
                     CookieUtil.setCookie(request, response, "oldToken", token, 60 * 60 * 2, true);
