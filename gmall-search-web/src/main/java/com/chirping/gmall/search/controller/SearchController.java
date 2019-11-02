@@ -2,13 +2,20 @@ package com.chirping.gmall.search.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.nacos.client.utils.StringUtils;
+import com.chirping.gmall.authBean.QQloginData;
+import com.chirping.gmall.authBean.WeiBoLoginData;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.AttrService;
 import com.chirping.gmall.service.SearchService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.MD2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -24,7 +31,12 @@ public class SearchController {
     AttrService attrService;
 
     @RequestMapping("index")
-    public String index() {
+    public String index(Model model) {
+        /*if (userName != null && userName != "") {
+            model.addAttribute("loginData", userName);
+        } else {
+            model.addAttribute("loginData", "");
+        }*/
         return "index";
     }
 

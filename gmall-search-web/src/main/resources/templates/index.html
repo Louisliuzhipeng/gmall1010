@@ -95,7 +95,7 @@
             </b>
             <ul>
                 <li>
-                    <a href="http://localhost:8085/index?ReturnUrl=http://localhost:8083/index">你好，请登录</a>
+                    <a href="#" th:text="${loginData==''?'你好，请登录':loginData}" onclick="login()">你好，请登录</a>
                 </li>
                 <li>
                     <a href="/注册页面\index.html" class="li_2">免费注册</a>
@@ -670,8 +670,12 @@
 </body>
 <script type="text/javascript">
     function search() {
-        var keyword = $("#searchText").val()
+        var keyword = $("#searchText").val();
         window.location.href = "http://localhost:8083/list.html?keyword=" + keyword;
+    }
+
+    function login() {
+        window.location.href = "http://localhost:8085/index?ReturnUrl=http://localhost:8083/index";
     }
 
 </script>

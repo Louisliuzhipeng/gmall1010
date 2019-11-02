@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.client.utils.StringUtils;
 import com.chirping.gmall.pojo.UmsMember;
+import com.chirping.gmall.service.CartService;
 import com.chirping.gmall.service.UmsMemberService;
 import com.chirping.gmall.util.JwtUtil;
 import org.springframework.stereotype.Controller;
@@ -24,17 +25,19 @@ public class PassportController {
 
     @Reference
     UmsMemberService umsMemberService;
+    @Reference
+    CartService cartService;
 
     @RequestMapping("verify")
     @ResponseBody
-    public String verify(String token, String currentIP) {
+    public String verify(String token, String currentIP, HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
         Map<String, Object> decode = JwtUtil.decode(token, "2019gmall1010", currentIP);
         if (decode != null) {
             map.put("status", "success");
             map.put("memberId", decode.get("memberId").toString());
             map.put("nickname", decode.get("nickname").toString());
-        }else {
+        } else {
             map.put("status", "fail");
         }
         return JSON.toJSONString(map);

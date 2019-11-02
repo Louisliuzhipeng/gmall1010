@@ -28,6 +28,12 @@
             <artifactId>gmall-web-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- oauth工具类 -->
+        <dependency>
+            <groupId>com.xkcoding</groupId>
+            <artifactId>justauth-spring-boot-starter</artifactId>
+            <version>1.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>

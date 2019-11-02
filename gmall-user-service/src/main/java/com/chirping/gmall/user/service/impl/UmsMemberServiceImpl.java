@@ -72,6 +72,11 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
+    public void addOauthUser(UmsMember umsMember) {
+
+    }
+
+    @Override
     public void addUserToken(String token, String memberId) {
         Jedis jedis = null;
         try {

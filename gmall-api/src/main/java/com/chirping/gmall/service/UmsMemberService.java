@@ -18,4 +18,6 @@ public interface UmsMemberService {
     void addUserToken(String token, String memberId);
 
     UmsMember login(UmsMember umsMember);
+
+    void addOauthUser(UmsMember umsMember);
 }

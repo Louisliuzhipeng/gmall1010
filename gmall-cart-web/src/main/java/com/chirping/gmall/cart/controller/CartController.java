@@ -44,7 +44,7 @@ public class CartController {
     @RequestMapping("/checkCart")
     @LoginRequired(loginSuccess = false)
     public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response, Model model) {
-        String memberId = "1";
+        String memberId = request.getParameter("memberId");
         // 调用服务，修改状态
         OmsCartItem omsCartItem = new OmsCartItem();
         omsCartItem.setMemberId(memberId);
@@ -75,7 +75,7 @@ public class CartController {
     @LoginRequired(loginSuccess = false)
     public String cartList(HttpServletRequest request, HttpServletResponse response, Model model) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
-        String memberId = "1";
+        String memberId = request.getParameter("memberId");
         if (StringUtils.isNotBlank(memberId)) {
             //已经登录查询Db
             omsCartItems = cartService.cartList(memberId);
@@ -118,8 +118,7 @@ public class CartController {
         omsCartItem.setProductSkuId(skuId);
         omsCartItem.setQuantity(new BigDecimal(quantity));
 
-        request.getParameter("memberId");
-        String memberId = "1";
+        String memberId = request.getParameter("memberId");
 
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         if (StringUtils.isBlank(memberId)) {
@@ -151,7 +150,7 @@ public class CartController {
             if (omsCartItemFromDb == null) {
                 // 该用户没有添加过当前商品
                 omsCartItem.setMemberId(memberId);
-                omsCartItem.setMemberNickname("test小明");
+                omsCartItem.setMemberNickname(request.getParameter("nickname"));
                 omsCartItem.setQuantity(new BigDecimal(quantity));
                 cartService.addCart(omsCartItem);
             } else {
