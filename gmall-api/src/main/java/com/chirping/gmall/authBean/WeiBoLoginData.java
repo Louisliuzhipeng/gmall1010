@@ -13,7 +13,7 @@ public class WeiBoLoginData {
 
     private String blog;
 
-    private String gender;
+    private int gender;
 
     private String location;
 
@@ -27,7 +27,18 @@ public class WeiBoLoginData {
 
     private String username;
 
-    private String uuid;
+    private Long uuid;
+
+    public void setGender(String gender) {
+        if (gender.equals("FEMALE")) {
+            this.gender = 2;
+        } else if (gender.equals("MALE")) {
+            this.gender = 1;
+        } else {
+            this.gender = 0;
+        }
+
+    }
 
     @Override
     public String toString() {

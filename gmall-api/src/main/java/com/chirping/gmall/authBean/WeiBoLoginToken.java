@@ -15,7 +15,7 @@ public class WeiBoLoginToken {
 
     private String openid;
 
-    private String uid;
+    private Long uid;
 
     @Override
     public String toString() {

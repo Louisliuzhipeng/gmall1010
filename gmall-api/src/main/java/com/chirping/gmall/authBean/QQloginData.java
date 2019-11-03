@@ -10,7 +10,7 @@ import lombok.Data;
 public class QQloginData {
     private String avatar;
 
-    private String gender;
+    private int gender;
 
     private String location;
 
@@ -22,15 +22,15 @@ public class QQloginData {
 
     private String username;
 
-    private String uuid;
+    private Long uuid;
 
     public void setGender(String gender) {
         if (gender.equals("FEMALE")) {
-            this.gender = "女";
+            this.gender = 2;
         } else if (gender.equals("MALE")) {
-            this.gender = "男";
+            this.gender = 1;
         } else {
-            this.gender = "保密";
+            this.gender = 0;
         }
 
     }

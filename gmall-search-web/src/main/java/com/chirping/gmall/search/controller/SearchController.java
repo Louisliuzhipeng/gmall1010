@@ -7,6 +7,7 @@ import com.chirping.gmall.authBean.WeiBoLoginData;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.AttrService;
 import com.chirping.gmall.service.SearchService;
+import com.google.common.base.Charsets;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +32,13 @@ public class SearchController {
     AttrService attrService;
 
     @RequestMapping("index")
-    public String index(Model model) {
-        /*if (userName != null && userName != "") {
+    public String index(Model model, HttpServletRequest request) {
+        String userName = request.getParameter("userName");
+        if (userName != null && userName != "") {
             model.addAttribute("loginData", userName);
         } else {
             model.addAttribute("loginData", "");
-        }*/
+        }
         return "index";
     }
 

@@ -9,6 +9,7 @@ import com.chirping.gmall.pojo.UmsMember;
 import com.chirping.gmall.pojo.UmsMemberReceiveAddress;
 import com.chirping.gmall.service.UmsMemberService;
 import com.chirping.gmall.util.RedisUtil;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import java.util.List;
  * @date $date$
  */
 @Service
+@Transactional
 public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Resource
@@ -73,7 +75,12 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Override
     public void addOauthUser(UmsMember umsMember) {
+        umsMemberMapper.insert(umsMember);
+    }
 
+    @Override
+    public UmsMember checkOauthUser(UmsMember umsCheck) {
+        return umsMemberMapper.selectOne(umsCheck);
     }
 
     @Override
