@@ -1,14 +1,14 @@
-package com.chirping.gmall.manage;
+package com.chirping.gmall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class GmallManageWebApplication {
+public class GmallItemWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GmallManageWebApplication.class, args);
+        SpringApplication.run(GmallItemWebApplication.class, args);
     }
 
 }

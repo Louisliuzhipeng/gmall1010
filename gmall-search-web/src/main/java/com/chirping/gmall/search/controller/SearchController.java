@@ -2,6 +2,7 @@ package com.chirping.gmall.search.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.nacos.client.utils.StringUtils;
+import com.chirping.gmall.annotations.LoginRequired;
 import com.chirping.gmall.authBean.QQloginData;
 import com.chirping.gmall.authBean.WeiBoLoginData;
 import com.chirping.gmall.pojo.*;
@@ -32,8 +33,9 @@ public class SearchController {
     AttrService attrService;
 
     @RequestMapping("index")
+    @LoginRequired(loginSuccess = false)
     public String index(Model model, HttpServletRequest request) {
-        String userName = request.getParameter("userName");
+        String userName = (String) request.getAttribute("nickname");
         if (userName != null && userName != "") {
             model.addAttribute("loginData", userName);
         } else {
@@ -43,6 +45,7 @@ public class SearchController {
     }
 
     @RequestMapping("list.html")
+    @LoginRequired(loginSuccess = false)
     public String list(PmsSearchParam pmsSearchParam, Model model) {
         List<PmsSearchSkuInfo> searchSkuInfos = searchService.list(pmsSearchParam);
 
@@ -54,8 +57,10 @@ public class SearchController {
                 valueSet.add(valueId);
             }
         }
-
-        List<PmsBaseAttrInfo> pmsBaseAttrInfos = attrService.getAttrValueListByValueId(valueSet);
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = null;
+        if (valueSet != null) {
+            pmsBaseAttrInfos = attrService.getAttrValueListByValueId(valueSet);
+        }
 
         //平台属性数组
         String[] delValueIds = pmsSearchParam.getValueId();

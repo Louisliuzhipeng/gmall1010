@@ -42,7 +42,7 @@
     </div>
     <div class="header_ico">
         <div class="header_gw">
-            <span><a href="#">我的购物车</a></span>
+            <span><a href="http://localhost:8084/cartList">我的购物车</a></span>
             <img src="/list/image/settleup-@1x.png"/>
             <span>0</span>
         </div>
@@ -99,7 +99,8 @@
                     <div class="sl_value">
                         <ul>
                             <li th:each="attrValue:${attrInfo.attrValueList}">
-                                <a th:href="'/list.html?'+${urlParam}+'&valueId='+${attrValue.id}" th:text="${attrValue.valueName}">属性值</a></li>
+                                <a th:href="'/list.html?'+${urlParam}+'&valueId='+${attrValue.id}"
+                                   th:text="${attrValue.valueName}">属性值</a></li>
                         </ul>
                     </div>
                 </div>

@@ -33,14 +33,6 @@ public class CartController {
     @Reference
     SpuService spuService;
 
-    @RequestMapping("/toTrade")
-    @LoginRequired(loginSuccess = true)
-    public String toTrade(HttpServletRequest request, HttpServletResponse response, Model model) {
-        String memberId = request.getAttribute("memberId").toString();
-        String nickname = request.getAttribute("nickname").toString();
-        return "toTrade";
-    }
-
     @RequestMapping("/checkCart")
     @LoginRequired(loginSuccess = false)
     public String checkCart(String isChecked, String skuId, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -64,8 +56,10 @@ public class CartController {
         BigDecimal totalAmount = new BigDecimal("0");
         for (OmsCartItem omsCartItem : omsCartItems) {
             BigDecimal totalPrice = omsCartItem.getTotalPrice();
-            if (omsCartItem.getIschecked().equals("1")) {
-                totalAmount = totalAmount.add(totalPrice);
+            if (omsCartItem.getIschecked() != null) {
+                if (omsCartItem.getIschecked().equals("1")) {
+                    totalAmount = totalAmount.add(totalPrice);
+                }
             }
         }
         return totalAmount;
@@ -75,7 +69,8 @@ public class CartController {
     @LoginRequired(loginSuccess = false)
     public String cartList(HttpServletRequest request, HttpServletResponse response, Model model) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
-        String memberId = request.getParameter("memberId");
+        String memberId = (String) request.getAttribute("memberId");
+        String nickname = (String) request.getAttribute("nickname");
         if (StringUtils.isNotBlank(memberId)) {
             //已经登录查询Db
             omsCartItems = cartService.cartList(memberId);
@@ -90,10 +85,11 @@ public class CartController {
             omsCartItem.setTotalPrice(omsCartItem.getPrice().multiply(omsCartItem.getQuantity()));
         }
         model.addAttribute("cartList", omsCartItems);
-
         // 被勾选商品的总额
         BigDecimal totalAmount = getTotalAmount(omsCartItems);
         model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("userId", memberId);
+        model.addAttribute("nickname", nickname);
         return "cartList";
     }
 
@@ -118,7 +114,7 @@ public class CartController {
         omsCartItem.setProductSkuId(skuId);
         omsCartItem.setQuantity(new BigDecimal(quantity));
 
-        String memberId = request.getParameter("memberId");
+        String memberId = (String) request.getAttribute("memberId");
 
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         if (StringUtils.isBlank(memberId)) {
@@ -150,7 +146,7 @@ public class CartController {
             if (omsCartItemFromDb == null) {
                 // 该用户没有添加过当前商品
                 omsCartItem.setMemberId(memberId);
-                omsCartItem.setMemberNickname(request.getParameter("nickname"));
+                omsCartItem.setMemberNickname((String) request.getAttribute("nickname"));
                 omsCartItem.setQuantity(new BigDecimal(quantity));
                 cartService.addCart(omsCartItem);
             } else {

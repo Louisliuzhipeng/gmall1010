@@ -25,8 +25,6 @@ public class PassportController {
 
     @Reference
     UmsMemberService umsMemberService;
-    @Reference
-    CartService cartService;
 
     @RequestMapping("verify")
     @ResponseBody

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.http.HttpServletMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         //判断请求的方法上有没有拦截注解
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         LoginRequired loginRequired = handlerMethod.getMethodAnnotation(LoginRequired.class);
+        HttpServletMapping httpServletMapping = request.getHttpServletMapping();
         if (loginRequired == null) {
             return true;
         }
@@ -41,18 +43,25 @@ public class AuthInterceptor implements HandlerInterceptor {
         boolean loginSuccess = loginRequired.loginSuccess();
         //验证
         String success = "fail";
-        Map<String, String> successMap=new HashMap<>();
+        Map<String, String> successMap = new HashMap<>();
         if (StringUtils.isNotBlank(token)) {
-            // 通过nginx转发的客户端ip
             String ip = request.getHeader("x-forwarded-for");
+            if (!checkIP(ip)) {
+                ip = request.getHeader("Proxy-Client-IP");
+            }
+            if (!checkIP(ip)) {
+                ip = request.getHeader("WL-Proxy-Client-IP");
+            }
             if (StringUtils.isBlank(ip)) {
-                // 从request中获取ip
                 ip = request.getRemoteAddr();
-                if (StringUtils.isBlank(ip)) {
-                    ip = "127.0.0.1";
+                if (!checkIP(ip)) {
+                    ip = request.getRemoteAddr();
+                    if (!checkIP(ip)) {
+                        ip = "127.0.0.1";
+                    }
                 }
             }
-            String successJson = HttpclientUtil.doGet("http://localhost:8085/verify?token=" + token+"&currentIP="+ip);
+            String successJson = HttpclientUtil.doGet("http://localhost:8085/verify?token=" + token + "&currentIP=" + ip);
             successMap = JSON.parseObject(successJson, Map.class);
             success = successMap.get("status");
         }
@@ -72,13 +81,20 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         } else {
             if (success.equals("success")) {
-                request.setAttribute("memberId", "1");
-                request.setAttribute("nickname", "nickname");
+                request.setAttribute("memberId", successMap.get("memberId"));
+                request.setAttribute("nickname", successMap.get("nickname"));
                 //验证通过,覆盖cookie中的token
                 if (StringUtils.isNotBlank(token)) {
                     CookieUtil.setCookie(request, response, "oldToken", token, 60 * 60 * 2, true);
                 }
             }
+        }
+        return true;
+    }
+
+    private static boolean checkIP(String ip) {
+        if (ip == null || ip.length() == 0 || ip.split(".").length != 4) {
+            return false;
         }
         return true;
     }

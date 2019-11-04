@@ -15,6 +15,7 @@ import io.searchbox.core.SearchResult;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -86,6 +87,7 @@ public class SearchServiceImpl implements SearchService {
             }
         }
         if (StringUtils.isNotEmpty(keyword)) {
+            //WildcardQueryBuilder wildcardQueryBuilder = new WildcardQueryBuilder("skuName", "*" + keyword + "*");
             //match
             MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("skuName", keyword);
             //must
@@ -100,6 +102,7 @@ public class SearchServiceImpl implements SearchService {
         highlightBuilder.postTags("</span>");
         searchSourceBuilder.highlighter(highlightBuilder);
         searchSourceBuilder.sort("id", SortOrder.DESC);
+        searchSourceBuilder.size(20);
 
         // aggs
         TermsAggregationBuilder groupby_attr = AggregationBuilders.terms("groupby_attr").field("skuAttrValueList.valueId");

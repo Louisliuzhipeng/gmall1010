@@ -131,7 +131,7 @@ public class RestAuthController {
         token = JwtUtil.encode("2019gmall1010", userMap, ip);
         // 将token存入redis一份
         umsMemberService.addUserToken(token, memberId);
-        response1.sendRedirect("http://localhost:8083/index?token=" + token + "&userName=" + userName);
+        response1.sendRedirect("http://localhost:8083/index?token=" + token);
     }
 
 }

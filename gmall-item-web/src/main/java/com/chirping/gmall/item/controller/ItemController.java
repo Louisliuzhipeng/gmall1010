@@ -2,6 +2,7 @@ package com.chirping.gmall.item.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.chirping.gmall.annotations.LoginRequired;
 import com.chirping.gmall.pojo.*;
 import com.chirping.gmall.service.ItemService;
 import com.chirping.gmall.service.SpuService;
@@ -26,6 +27,7 @@ public class ItemController {
     SpuService spuService;
 
     @RequestMapping("{skuId}.html")
+    @LoginRequired(loginSuccess = false)
     public String item(@PathVariable String skuId, Model model, HttpServletRequest request) {
 
         String ip = request.getRemoteAddr();
