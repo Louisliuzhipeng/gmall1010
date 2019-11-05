@@ -40,7 +40,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         // 封装的参数对象
         UmsMemberReceiveAddress umsMemberReceiveAddress = new UmsMemberReceiveAddress();
         umsMemberReceiveAddress.setMemberId(memberId);
-
         List<UmsMemberReceiveAddress> umsMemberReceiveAddresses = umsMemberReceiveAddressMapper.select(umsMemberReceiveAddress);
         return umsMemberReceiveAddresses;
     }
@@ -72,13 +71,22 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public void addOauthUser(UmsMember umsMember) {
-        umsMemberMapper.insert(umsMember);
+    public UmsMember addOauthUser(UmsMember umsMember) {
+        umsMemberMapper.insertSelective(umsMember);
+        return umsMember;
     }
 
     @Override
     public UmsMember checkOauthUser(UmsMember umsCheck) {
         return umsMemberMapper.selectOne(umsCheck);
+    }
+
+    @Override
+    public UmsMemberReceiveAddress getReceiveAddressById(String receiveAddressId) {
+        UmsMemberReceiveAddress umsMemberReceiveAddress = new UmsMemberReceiveAddress();
+        umsMemberReceiveAddress.setId(receiveAddressId);
+        UmsMemberReceiveAddress umsMemberReceiveAddress1 = umsMemberReceiveAddressMapper.selectOne(umsMemberReceiveAddress);
+        return umsMemberReceiveAddress1;
     }
 
     @Override

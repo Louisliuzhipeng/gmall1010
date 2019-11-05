@@ -17,6 +17,7 @@ public class UmsMemberReceiveAddress implements Serializable {
     private String memberId;
     private String name;
     private String phoneNumber;
+    @Column(name = "default_status")
     private Integer defaultStatus;
     private String postCode;
     private String province;

@@ -50,7 +50,8 @@
     <div class="top-3">
         <ul>
             <li class=".address default selected" th:each="userAddress:${userAddressList}">
-                <input name="deliveryAddress" type="radio" value="" th:checked="${userAddress.defaultStatus=='1'}">
+                <input name="deliveryAddress" type="radio" th:value="${userAddress.id}"
+                       th:checked="${userAddress.defaultStatus==1}" onclick="chageAddress()">
                 <span th:text="${userAddress.name}">收件人AAAA </span><span
                     th:text="${userAddress.province+' '+userAddress.city+' '+userAddress.region+' '+userAddress.detailAddress}">具体地址111 </span>
             </li>
@@ -99,25 +100,14 @@
     </div>
 </div>
 <form action="./submitOrder" method="post" id="orderForm">
-    <input name="consignee" id="consignee" type="hidden"/>
-    <input name="deliveryAddress" id="deliveryAddress" type="hidden"/>
-    <input name="paymentWay" id="paymentWay" type="hidden"/>
-    <input name="orderComment" id="orderComment" type="hidden"/>
-    <span th:each="omsOrderItem,stat:${omsOrderItems}">
-				<input th:name="'orderDetailList['+${stat.index}+'].skuId'" type="hidden"
-                       th:value="${omsOrderItem.productSkuId}"/>
-				<input th:name="'orderDetailList['+${stat.index}+'].skuNum'" type="hidden"
-                       th:value="${omsOrderItem.productName}"/>
-				<input th:name="'orderDetailList['+${stat.index}+'].orderPrice'" type="hidden"
-                       th:value="${omsOrderItem.productPrice}"/>
-				<input th:name="'orderDetailList['+${stat.index}+'].skuName'" type="hidden"
-                       th:value="${omsOrderItem.productName}"/>
-			</span>
+    <input name="receiveAddressId" id="receiveAddressId" type="hidden"/>
+    <input name="totalAmount" id="totalAmount" type="hidden" th:value="${totalAmount}" />
     <input name="tradeCode" type="hidden" th:value="${tradeCode}"/>
 </form>
 <script>
-    function insertAddress() {
-        return;
+    function chageAddress() {
+        var addressId = $("input[name='deliveryAddress']:checked").val();
+        $("#receiveAddressId").val(addressId);
     }
 
     $(function () {

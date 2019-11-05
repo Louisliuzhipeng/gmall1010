@@ -5,6 +5,7 @@ import com.chirping.gmall.pojo.PmsProductInfo;
 import com.chirping.gmall.pojo.PmsProductSaleAttr;
 import com.chirping.gmall.pojo.PmsSkuInfo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -29,4 +30,6 @@ public interface SpuService {
     PmsSkuInfo getSkuInfoById(String skuId,String ip);
 
     List<PmsSkuInfo> getAllSku();
+
+    boolean checkPrice(String productSkuId, BigDecimal price);
 }

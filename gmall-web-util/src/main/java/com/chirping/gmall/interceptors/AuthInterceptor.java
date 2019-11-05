@@ -28,7 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         LoginRequired loginRequired = handlerMethod.getMethodAnnotation(LoginRequired.class);
         HttpServletMapping httpServletMapping = request.getHttpServletMapping();
-        if (loginRequired == null) {
+         if (loginRequired == null) {
             return true;
         }
         String token = "";

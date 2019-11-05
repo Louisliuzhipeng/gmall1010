@@ -107,7 +107,7 @@ public class RestAuthController {
         umsCheck.setSourceUid(umsMember.getSourceUid());
         UmsMember memberCheck = umsMemberService.checkOauthUser(umsCheck);
         if (memberCheck == null) {
-            umsMemberService.addOauthUser(umsMember);
+            umsMember = umsMemberService.addOauthUser(umsMember);
         } else {
             umsMember = memberCheck;
         }

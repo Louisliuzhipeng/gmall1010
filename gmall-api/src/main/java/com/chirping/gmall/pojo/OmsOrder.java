@@ -1,13 +1,21 @@
 package com.chirping.gmall.pojo;
 
+import lombok.Data;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+@Data
 public class OmsOrder implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String memberId;
     private String couponId;
@@ -53,4 +61,6 @@ public class OmsOrder implements Serializable {
     private Date commentTime;
     private Date modifyTime;
 
+    @Transient
+    List<OmsOrderItem> omsOrderItems;
 }

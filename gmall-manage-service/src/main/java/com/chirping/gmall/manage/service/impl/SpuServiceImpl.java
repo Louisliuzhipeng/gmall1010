@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -88,10 +89,8 @@ public class SpuServiceImpl implements SpuService {
         PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
         pmsProductSaleAttr.setProductId(spuId);
         List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
-
         for (PmsProductSaleAttr productSaleAttr : pmsProductSaleAttrs) {
             List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = new ArrayList<>();
-
             PmsProductSaleAttrValue pmsProductSaleAttrValue = new PmsProductSaleAttrValue();
             pmsProductSaleAttrValue.setProductId(spuId);
             pmsProductSaleAttrValue.setSaleAttrId(productSaleAttr.getSaleAttrId());
@@ -105,12 +104,10 @@ public class SpuServiceImpl implements SpuService {
     public String saveSkuInfo(PmsSkuInfo pmsSkuInfo) {
         try {
             pmsSkuInfoMapper.insertSelective(pmsSkuInfo);
-
             for (PmsSkuImage pmsSkuImage : pmsSkuInfo.getSkuImageList()) {
                 pmsSkuImage.setSkuId(pmsSkuInfo.getId());
                 pmsSkuImageMapper.insertSelective(pmsSkuImage);
             }
-
             for (PmsSkuAttrValue pmsSkuAttrValue : pmsSkuInfo.getSkuAttrValueList()) {
                 pmsSkuAttrValue.setSkuId(pmsSkuInfo.getId());
                 pmsSkuAttrValueMapper.insertSelective(pmsSkuAttrValue);
@@ -127,7 +124,6 @@ public class SpuServiceImpl implements SpuService {
 
     @Override
     public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId, String skuId) {
-
         /*PmsProductSaleAttr pmsProductSaleAttr=new PmsProductSaleAttr();
         pmsProductSaleAttr.setProductId(productId);
         List<PmsProductSaleAttr> saleAttrs = pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
@@ -140,9 +136,7 @@ public class SpuServiceImpl implements SpuService {
 
             productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue));
         }*/
-
         List<PmsProductSaleAttr> saleAttrs = pmsProductSaleAttrMapper.selectspuSaleAttrListCheckBySku(productId, skuId);
-
         return saleAttrs;
     }
 
@@ -155,7 +149,6 @@ public class SpuServiceImpl implements SpuService {
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         pmsSkuInfo.setId(skuId);
         PmsSkuInfo skuInfo = pmsSkuInfoMapper.selectOne(pmsSkuInfo);
-
         PmsSkuImage pmsSkuImage = new PmsSkuImage();
         pmsSkuImage.setSkuId(skuInfo.getId());
         skuInfo.setSkuImageList(pmsSkuImageMapper.select(pmsSkuImage));
@@ -190,6 +183,7 @@ public class SpuServiceImpl implements SpuService {
                 }
                 String locktoken = jedis.get("sku:" + skuId + ":lock");
                 if (StringUtils.isNotBlank(locktoken) && locktoken.equals(token)) {
+                    //jedis.eval("lua");
                     jedis.del("sku:" + skuId + ":lock");
                 }
             } else {
@@ -211,12 +205,24 @@ public class SpuServiceImpl implements SpuService {
         List<PmsSkuInfo> skuInfos = pmsSkuInfoMapper.selectAll();
         for (PmsSkuInfo skuInfo : skuInfos) {
             String skuId = skuInfo.getId();
-
             PmsSkuAttrValue pmsSkuAttrValue = new PmsSkuAttrValue();
             pmsSkuAttrValue.setSkuId(skuId);
             List<PmsSkuAttrValue> pmsSkuAttrValues = pmsSkuAttrValueMapper.select(pmsSkuAttrValue);
             skuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
         return skuInfos;
+    }
+
+    @Override
+    public boolean checkPrice(String productSkuId, BigDecimal productPrice) {
+        boolean b = false;
+        PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
+        pmsSkuInfo.setId(productSkuId);
+        PmsSkuInfo pmsSkuInfo1 = pmsSkuInfoMapper.selectOne(pmsSkuInfo);
+        BigDecimal price = pmsSkuInfo1.getPrice();
+        if (price.compareTo(productPrice) == 0) {
+            b = true;
+        }
+        return b;
     }
 }
