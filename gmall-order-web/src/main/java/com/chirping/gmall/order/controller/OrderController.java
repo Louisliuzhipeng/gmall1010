@@ -12,7 +12,9 @@ import com.chirping.gmall.service.SpuService;
 import com.chirping.gmall.service.UmsMemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +44,7 @@ public class OrderController {
 
     @RequestMapping("/submitOrder")
     @LoginRequired(loginSuccess = true)
-    public String submitOrder(String receiveAddressId, BigDecimal totalAmount, String tradeCode, HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model) {
+    public ModelAndView submitOrder(String receiveAddressId, BigDecimal totalAmount, String tradeCode, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
         String memberId = (String) request.getAttribute("memberId");
         String nickname = (String) request.getAttribute("nickname");
         // 检查交易码
@@ -73,9 +75,10 @@ public class OrderController {
             omsOrder.setReceiverPostCode(umsMemberReceiveAddress.getPostCode());
             omsOrder.setReceiverProvince(umsMemberReceiveAddress.getProvince());
             omsOrder.setReceiverRegion(umsMemberReceiveAddress.getRegion());
+            omsOrder.setPayType(0);
             // 当前日期加一天，一天后配送
             Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE,1);
+            c.add(Calendar.DATE, 1);
             Date time = c.getTime();
             omsOrder.setReceiveTime(time);
             omsOrder.setSourceType(0);
@@ -89,9 +92,10 @@ public class OrderController {
                     // 获得订单详情列表
                     OmsOrderItem omsOrderItem = new OmsOrderItem();
                     // 检价
-                    boolean b = spuService.checkPrice(omsCartItem.getProductSkuId(),omsCartItem.getPrice());
+                    boolean b = spuService.checkPrice(omsCartItem.getProductSkuId(), omsCartItem.getPrice());
                     if (b == false) {
-                        return "tradeFail";
+                        ModelAndView mv = new ModelAndView("tradeFail");
+                        return mv;
                     }
                     // 验库存,远程调用库存系统
                     omsOrderItem.setProductPic(omsCartItem.getProductPic());
@@ -111,12 +115,17 @@ public class OrderController {
             omsOrder.setOmsOrderItems(omsOrderItems);
             // 将订单和订单详情写入数据库
             // 删除购物车的对应商品
-            orderService.saveOrder(omsOrder);
+            omsOrder = orderService.saveOrder(omsOrder);
             // 重定向到支付系统
+            ModelAndView mv = new ModelAndView("redirect:http://payment.gmall.com/index");
+            mv.addObject("omsOrderId", omsOrder.getId());
+            mv.addObject("outTradeNo", outTradeNo);
+            mv.addObject("totalAmount", totalAmount);
+            return mv;
         } else {
-            return "tradeFail";
+            ModelAndView mv = new ModelAndView("tradeFail");
+            return mv;
         }
-        return null;
     }
 
     @RequestMapping("/toTrade")

@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.client.utils.StringUtils;
 import com.chirping.gmall.pojo.UmsMember;
-import com.chirping.gmall.service.CartService;
 import com.chirping.gmall.service.UmsMemberService;
 import com.chirping.gmall.util.JwtUtil;
 import org.springframework.stereotype.Controller;

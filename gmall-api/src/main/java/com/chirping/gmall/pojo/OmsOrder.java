@@ -29,10 +29,10 @@ public class OmsOrder implements Serializable {
     private BigDecimal integrationAmount;
     private BigDecimal couponAmount;
     private BigDecimal discountAmount;
-    private int payType;
-    private int sourceType;
-    private int status;
-    private int orderType;
+    private Integer payType;
+    private Integer sourceType;
+    private Integer status;
+    private Integer orderType;
     private String deliveryCompany;
     private String deliverySn;
     private int autoConfirmDay;

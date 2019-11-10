@@ -61,7 +61,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                     }
                 }
             }
-            String successJson = HttpclientUtil.doGet("http://localhost:8085/verify?token=" + token + "&currentIP=" + ip);
+            String successJson = HttpclientUtil.doGet("http://passport.gmall.com/verify?token=" + token + "&currentIP=" + ip);
             successMap = JSON.parseObject(successJson, Map.class);
             success = successMap.get("status");
         }
@@ -69,7 +69,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (!success.equals("success")) {
                 //重定向登录
                 StringBuffer requestURL = request.getRequestURL();
-                response.sendRedirect("http://localhost:8085/index?ReturnUrl=" + requestURL);
+                response.sendRedirect("http://passport.gmall.com/index?ReturnUrl=" + requestURL);
                 return false;
             }
             //验证通过

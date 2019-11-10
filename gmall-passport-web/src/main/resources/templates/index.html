@@ -69,7 +69,7 @@
     </div>
 </div>
 <!--底部-->
-<input type="hidden" th:value="${ReturnUrl}" id="ReturnUrl"/>
+<input type="hidden" th:value="${ReturnUrl!=null?ReturnUrl:'http://search.gmall.com/index'}" id="ReturnUrl"/>
 </body>
 <script language="JavaScript">
 

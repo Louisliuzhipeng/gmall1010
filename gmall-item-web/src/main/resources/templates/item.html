@@ -213,7 +213,7 @@
                 </div>
                 <div class="box-btns clear">
                     <div class="box-btns-one">
-                        <form id="itemForm" action="http://localhost:8084/addToCart" method="post">
+                        <form id="itemForm" action="http://cart.gmall.com/addToCart" method="post">
                             <input type="text" name="quantity" id="" value="1"/>
                             <input type="hidden" name="skuId" th:value="${skuInfo?.id}"/>
                             <div class="box-btns-one1">
@@ -983,7 +983,7 @@
         var json_sku = JSON.parse(sku);
         var v_skuId = json_sku[k];
         if (v_skuId) {
-            window.location.href = "http://localhost:8082/" + v_skuId + ".html";
+            window.location.href = "http://item.gmall.com/" + v_skuId + ".html";
         }
     }
 </script>

@@ -18,3 +18,8 @@ Gmall-cart-web     购物车请求模块 端口 8084
 
 Gmall-passport-web     用户认证模块 端口 8085
 
+gmall-order-service    订单模块     端口8076
+gmall-order-web        订单请求模块 端口 8086
+
+gmall-payment         支付模块  端口 8087
+

@@ -101,7 +101,7 @@
 </div>
 <form action="./submitOrder" method="post" id="orderForm">
     <input name="receiveAddressId" id="receiveAddressId" type="hidden"/>
-    <input name="totalAmount" id="totalAmount" type="hidden" th:value="${totalAmount}" />
+    <input name="totalAmount" id="totalAmount" type="hidden" th:value="${totalAmount}"/>
     <input name="tradeCode" type="hidden" th:value="${tradeCode}"/>
 </form>
 <script>
@@ -111,6 +111,9 @@
     }
 
     $(function () {
+        var addressId = $("input[name='deliveryAddress']:checked").val();
+        $("#receiveAddressId").val(addressId);
+
         $("#submitButton").click(function () {
             $("#consignee").val($("input[type='radio']:checked").next().text());
             $("#deliveryAddress").val($("input[type='radio']:checked").next().next().text());

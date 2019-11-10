@@ -11,5 +11,11 @@ public interface OrderService {
 
     String genTradeCode(String memberId);
 
-    void saveOrder(OmsOrder omsOrder);
+    OmsOrder saveOrder(OmsOrder omsOrder);
+
+    OmsOrder getOmsOrderItemByIdOrderId(String omsOrderId, String memberId, String orderId);
+
+    OmsOrder getOrderByOutTradeNo(String outTradeNo);
+
+    void updateOrder(OmsOrder omsOrder);
 }

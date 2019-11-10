@@ -24,7 +24,7 @@
         </b>
         <ul>
             <li>
-                <a href="#" class="li_2">你好，请登录</a>
+                <a href="#" class="li_2" th:text="${loginData==''?'你好，请登录':loginData}" onclick="login()">你好，请登录</a>
             </li>
 
         </ul>
@@ -42,7 +42,7 @@
     </div>
     <div class="header_ico">
         <div class="header_gw">
-            <span><a href="http://localhost:8084/cartList">我的购物车</a></span>
+            <span><a href="http://cart.gmall.com/cartList">我的购物车</a></span>
             <img src="/list/image/settleup-@1x.png"/>
             <span>0</span>
         </div>
@@ -224,11 +224,9 @@
                                     <img src="/list/img/57d0d400nfd249af4.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥5199.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                             </a>
@@ -243,7 +241,6 @@
                             <p class="tab_R">
                                 <span>¥5199.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                             </a>
@@ -254,27 +251,22 @@
                                     <img src="/list/img/57d0d400nfd249af4.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥5199.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                             </a>
                         </div>
-
                         <div style="width:215px">
                             <p class="da">
                                 <a href="#">
                                     <img src="/list/img/58d1d078N20e18b62.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥6388.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
                             </a>
@@ -285,11 +277,9 @@
                                     <img src="/list/img/58d1d078N20e18b62.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥6388.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
                             </a>
@@ -300,11 +290,9 @@
                                     <img src="/list/img/58d1d078N20e18b62.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥6388.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
                             </a>
@@ -315,17 +303,14 @@
                                     <img src="/list/img/58d1d078N20e18b62.jpg" class="dim">
                                 </a>
                             </p>
-
                             <p class="tab_R">
                                 <span>¥6388.00</span>
                             </p>
-
                             <a href="#" title="" class="tab_JE">
                                 Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
                             </a>
                         </div>
                     </div>
-
                     <!--分页-->
                     <div class="filter_page">
                         <div class="page_wrap">
@@ -355,10 +340,8 @@
         </div>
     </div>
 </div>
-
 <br/>
 <br/>
-
 <!--底部-->
 <footer class="footer">
     <div class="footer_top">
@@ -400,15 +383,12 @@
 <script language="JavaScript">
     function item(skuid) {
         console.log("skuid:" + skuid);
-        window.location.href = "http://localhost:8082/" + skuid + ".html";
+        window.location.href = "http://item.gmall.com/" + skuid + ".html";
     }
-
     function searchList() {
         var keyword = $("#keyword").val();
         window.location.href = "/list.html?keyword=" + keyword;
     }
-
-
     $(".sl_ext a:nth-child(1)").hover(function () {
         $(this).children("b").stop(true).animate({top: "3px"}, 50);
         $(this).children("i").stop(true).animate({top: "-23px"}, 50)

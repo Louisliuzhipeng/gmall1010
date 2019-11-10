@@ -54,14 +54,17 @@ public class CookieUtil {
         try {
             if (cookieValue == null) {
                 cookieValue = "";
-            } else if (isEncode) {
-                cookieValue = URLEncoder.encode(cookieValue, "utf-8");
+            }
+            if (isEncode) {
+                cookieValue = URLEncoder.encode(cookieValue, "UTF-8");
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookieMaxage >= 0)
+            if (cookieMaxage >= 0) {
                 cookie.setMaxAge(cookieMaxage);
-            if (null != request)// 设置域名的cookie
+            }
+            if (request != null) {
                 cookie.setDomain(getDomainName(request));
+            }
             // 在域名的根路径下保存
             cookie.setPath("/");
             response.addCookie(cookie);

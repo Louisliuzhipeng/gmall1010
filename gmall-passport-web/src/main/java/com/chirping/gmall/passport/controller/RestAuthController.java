@@ -9,24 +9,19 @@ import com.chirping.gmall.authBean.WeiBoLoginData;
 import com.chirping.gmall.pojo.UmsMember;
 import com.chirping.gmall.service.UmsMemberService;
 import com.chirping.gmall.util.JwtUtil;
-import com.google.common.base.Charsets;
 import com.xkcoding.justauth.AuthRequestFactory;
 import lombok.RequiredArgsConstructor;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.http.HttpProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.stream.events.EndDocument;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -131,7 +126,7 @@ public class RestAuthController {
         token = JwtUtil.encode("2019gmall1010", userMap, ip);
         // 将token存入redis一份
         umsMemberService.addUserToken(token, memberId);
-        response1.sendRedirect("http://localhost:8083/index?token=" + token);
+        response1.sendRedirect("http://search.gmall.com/index?token=" + token);
     }
 
 }

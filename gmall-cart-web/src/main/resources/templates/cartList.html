@@ -16,12 +16,12 @@
         <div class="header">
             <ul class="header-left">
                 <li>
-                    <a href="http://localhost:8083/index">首页</a>
+                    <a href="http://search.gmall.com/index">首页</a>
                 </li>
             </ul>
             <ul class="header-right">
-                <li><a href="#" id="login" onclick="login()" style="color: red;"
-                       th:text="${nickname==''?'你好，请登录':nickname}">你好，请登录</a></li>
+                <li><a href="#" id="login" onclick="login(0)" style="color: red;"
+                       th:text="${nickname=='1'?'你好，请登录':nickname}">你好，请登录</a></li>
                 <li><a href="../注册页面\index.html">免费注册</a></li>
                 <li class="spacer"></li>
                 <li><a href="">我的订单</a></li>
@@ -35,7 +35,7 @@
     <div class="one_sousuo">
         <div class="one_search_top">
             <div class="one_top_left">
-                <a href="http://localhost:8083/index" class="one_left_logo"><img src="img/logo1.jpg"></a>
+                <a href="http://search.gmall.com/index" class="one_left_logo"><img src="img/logo1.jpg"></a>
                 <a href="#" class="one_left_link">购物车</a>
             </div>
             <div class="one_top_right">
@@ -47,7 +47,8 @@
         <div class="one_search_load" th:if="${userId}==null">
             <img src="/img/shop_07.jpg" class="one_load_wraing">
             <span>您还没有登录！登录后购物车的商品将保存到您账号中</span>
-            <a href="#"><input type="button" onclick="login()" value="立即登录" class="one_load_btn"></a>
+            <a href="#"><input type="button" onclick="login('1')" value="立即登录"
+                               class="one_load_btn"></a>
         </div>
     </div>
 </div>
@@ -138,18 +139,23 @@
 <script type="text/javascript">
 
     function toTrade() {
-        window.location.href = "http://localhost:8086/toTrade";
+        window.location.href = "http://order.gmall.com/toTrade";
     }
 
     function toItem(skuId) {
-        window.location.href = "http://localhost:8082/" + skuId + ".html";
+        window.location.href = "http://item.gmall.com/" + skuId + ".html";
     }
 
-    function login() {
-        var loginName = $(login).val();
-        if (loginName != "你好，请登录") {
-            var s = encodeURIComponent("http://localhost:8084/cartList");
-            window.location.href = "http://localhost:8085/index?originUrl=" + s;
+    function login(obj) {
+        if (obj == '0') {
+            var logintext = $(obj).text();
+            if (logintext == "你好，请登录") {
+                var s = encodeURIComponent("http://cart.gmall.com/cartList");
+                window.location.href = "http://passport.gmall.com/index?ReturnUrl=" + s;
+            }
+        } else {
+            var s = encodeURIComponent("http://cart.gmall.com/cartList");
+            window.location.href = "http://passport.gmall.com/index?ReturnUrl=" + s;
         }
     }
 
@@ -208,7 +214,9 @@
     //购物车顶端tab
     $(".One_Topleft span:last-child").mouseover(function () {
         $(".One_Topleft span:first-child").css({"color": "black", "border-bottom": "none"})
-        $(this).css({"cursor": "pointer", "color": "#E4393C", "border-bottom": "2px solid red"})
+        $(this).css({
+            "cursor": "pointer", "color": "E4393C", "border-bottom": "2px solid red"
+        })
     }).mouseout(function () {
         $(this).css({"color": "black", "border-bottom": "none"});
         $(".One_Topleft span:first-child").css({
